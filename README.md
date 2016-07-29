@@ -21,3 +21,28 @@ Then `node index`.
 
 The script will then take control of your keyboard LEDs through CUE and display
 the heatmap if no errors occur.
+
+## Options
+
+This script takes options, so you can do things like this:
+
+```
+node index --color1 #0000FF --color2 #00FF00
+```
+
+- `color1` - Sets the first color of the gradient used by the heatmap. It's the
+  color that the least used keys will have. (Default: `#00FF00`)
+- `color2` - Sets the second color of the gradient used by the heatmap. It's the
+  color that the most used keys will have. (Default: `#FF0000`)
+- `database` - The path to the `whatpulse.db` file. (Default:
+  `%USERPROFILE%\AppData\Local\whatpulse\whatpulse.db`)
+
+## Running in Background
+
+To run this script in the background, I recommend you use [forever](https://github.com/foreverjs/forever).
+You could do something like this to run a heatmap with a blue-red color scheme in
+the background:
+
+```
+forever start index.js --color1 #0000FF
+```

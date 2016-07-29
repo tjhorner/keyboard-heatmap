@@ -5,9 +5,11 @@ var CueSDK = require('cue-sdk-node'),
     keys = require('./keys.json'),
     enums = require('./node_modules/cue-sdk-node/lib/enums.js');
 
-var heatmapGradient = new warna.Gradient("#00FF00", "#FF0000");
+var argv = require('minimist')(process.argv);
 
-var whatPulseDb = process.env.USERPROFILE + "\\AppData\\Local\\whatpulse\\whatpulse.db",
+var heatmapGradient = new warna.Gradient(argv.color1 || "#00FF00", argv.color2 || "#FF0000");
+
+var whatPulseDb = argv.database || process.env.USERPROFILE + "\\AppData\\Local\\whatpulse\\whatpulse.db",
     db = new SQLite3.Database(whatPulseDb);
 
 var keyboard = new CueSDK.CueSDK();
