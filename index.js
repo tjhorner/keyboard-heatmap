@@ -58,6 +58,6 @@ var setKeyboardHeatmap = () => {
   });
 };
 
-setInterval(setKeyboardHeatmap, argv["refresh-interval"] ? parseInt(argv["refresh-interval"]) || 5000);
+setInterval(setKeyboardHeatmap, argv["refresh-interval"] ? parseInt(argv["refresh-interval"]) : 5000);
 
 setKeyboardHeatmap();
