@@ -48,9 +48,12 @@ var processKeyCounts = (dbRows) => {
 
 var setKeyboardHeatmap = () => {
   db.serialize(() => {
-    db.all("SELECT '" + moment().format('YYYY-MM-DD') + "' AS day, key, count FROM keypress_frequency", (err, rows) => {
-      console.verbose("Processing " + rows.length + " rows from the db...");
-      processKeyCounts(rows);
+    var finalizedRows = [ ];
+    db.each("SELECT '" + moment().format('YYYY-MM-DD') + "' AS day, key, count FROM keypress_frequency", (err, row) => {
+      finalizedRows.push(row);
+    }, () => {
+      console.verbose("Processed " + finalizedRows.length + " rows...");
+      processKeyCounts(finalizedRows);
     });
   });
 };
