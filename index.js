@@ -7,12 +7,18 @@ var CueSDK = require('cue-sdk-node'),
 
 var argv = require('minimist')(process.argv);
 
+var verbose = argv.verbose;
+
 var heatmapGradient = new warna.Gradient(argv.color1 || "#00FF00", argv.color2 || "#FF0000");
 
 var whatPulseDb = argv.database || process.env.USERPROFILE + "\\AppData\\Local\\whatpulse\\whatpulse.db",
     db = new SQLite3.Database(whatPulseDb);
 
 var keyboard = new CueSDK.CueSDK();
+
+console.verbose = (message) => {
+  if(verbose) console.log(message);
+};
 
 var rgbToArray = (rgb) => {
   return [rgb.red, rgb.green, rgb.blue];
@@ -34,6 +40,7 @@ var processKeyCounts = (dbRows) => {
     var keyCount = keyCounts[key],
         color = rgbToArray(heatmapGradient.getPosition((keyCount * 100 / max) / 100).rgb);
     if(keys[key]){
+      console.verbose("Setting " + keys[key] + " to color " + color.toString());
       keyboard.set(keys[key], color[0], color[1], color[2]);
     }
   }
@@ -42,6 +49,7 @@ var processKeyCounts = (dbRows) => {
 var setKeyboardHeatmap = () => {
   db.serialize(() => {
     db.all("SELECT '" + moment().format('YYYY-MM-DD') + "' AS day, key, count FROM keypress_frequency", (err, rows) => {
+      console.verbose("Processing " + rows.length + " rows from the db...");
       processKeyCounts(rows);
     });
   });

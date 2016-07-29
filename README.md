@@ -36,6 +36,7 @@ node index --color1 #0000FF --color2 #00FF00
   color that the most used keys will have. (Default: `#FF0000`)
 - `database` - The path to the `whatpulse.db` file. (Default:
   `%USERPROFILE%\AppData\Local\whatpulse\whatpulse.db`)
+- `verbose` - Pass this option in to enable verbose mode.
 
 ## Running in Background
 
